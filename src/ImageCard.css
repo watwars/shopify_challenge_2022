@@ -1,0 +1,18 @@
+.image-card {
+  flex-basis: 49%;
+  border: 1px solid rgb(235, 233, 233);
+  margin-bottom: 20px;
+}
+
+.image-card img {
+  width: 100%;
+}
+
+.image-text {
+  margin: 10px;
+}
+
+.content-toggle {
+  color: blue;
+  cursor: pointer;
+}
