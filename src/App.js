@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import ImageCard from "./ImageCard";
 import "./App.css";
@@ -13,27 +13,26 @@ const App = () => {
 
   const apiKey = process.env.REACT_APP_NASA_API_KEY;
 
-  const fetchNewData = () => {
+  const fetchNewData = useCallback(() => {
     const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=10`;
     axios
       .get(url)
       .then((response) => {
         const items = response.data;
-        const newData = data.concat(items);
-        setData(newData);
+        setData((data) => [...data, ...items]);
         setIsLoading(false);
       })
       .catch((error) => {
         toast.error("Error fetching data from NASA API");
         console.error(error);
       });
-  };
+  }, [apiKey]);
 
   // Fetching images from NASA API
   useEffect(() => {
     setIsLoading(true);
     fetchNewData();
-  }, []);
+  }, [fetchNewData]);
 
   useEffect(() => {
     const alreadyLiked = JSON.parse(localStorage.getItem("liked")) || [];
